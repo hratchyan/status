@@ -1,0 +1,48 @@
+owner: hratchyan
+repo: status
+user-agent: hratchyan-status-monitor
+
+sites:
+# Major Platforms with Status APIs
+- name: Zapier
+  url: https://status.zapier.com/api/v2/status.json
+  method: GET
+  expectedStatusCodes: [200]
+
+- name: Salesforce
+  url: https://api.status.salesforce.com/v1/instances/status
+  method: GET
+
+- name: Google Cloud
+  url: https://status.cloud.google.com/summary.json
+  method: GET
+
+- name: Microsoft Azure
+  url: https://azure.status.microsoft.com/en-us/status/feed/
+  method: GET
+
+- name: CallRail
+  url: https://status.callrail.com/api/v2/status.json
+  method: GET
+
+# WordPress Sites
+- name: Main WordPress Site (hratchyan.com)
+  url: https://hratchyan.com/wp-admin/admin-ajax.php?action=heartbeat
+  method: POST
+  expectedStatusCodes: [200]
+  maxResponseTime: 10000
+
+status-website:
+  name: "Marketing Operations Status"
+  cname: statuscheck.hratchyan.com
+  baseUrl: /
+
+  introTitle: "**Marketing Operations Status**"
+  introMessage: "Real-time monitoring of marketing tools and services"
+
+  theme: light
+  navbar:
+    - title: Status
+      href: /
+    - title: History
+      href: /history
