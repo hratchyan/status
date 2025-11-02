@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { ServiceStatus } from '@/lib/types';
 import { getAllServicesStatus } from '@/lib/api';
 import { ServiceCard } from '@/components/ServiceCard';
+import { StatusOverview } from '@/components/StatusOverview';
 
 export default function Home() {
   const [services, setServices] = useState<ServiceStatus[]>([]);
@@ -88,6 +89,9 @@ export default function Home() {
 
       {/* Services Grid */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Status Overview */}
+        {services.length > 0 && <StatusOverview services={services} />}
+
         {services.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-gray-400 mb-4">

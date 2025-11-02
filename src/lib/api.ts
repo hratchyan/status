@@ -1,12 +1,12 @@
 import { UptimeData, ResponseTimeData, ServiceStatus } from './types';
 
 const SERVICES = [
-  { id: 'Zapier', name: 'Zapier', url: 'https://status.zapier.com/api/v2/status.json' },
-  { id: 'Salesforce', name: 'Salesforce', url: 'https://api.status.salesforce.com/v1/instances/status' },
-  { id: 'Google Cloud', name: 'Google Cloud', url: 'https://status.cloud.google.com/summary.json' },
-  { id: 'Microsoft Azure', name: 'Microsoft Azure', url: 'https://azure.status.microsoft.com/en-us/status/feed/' },
-  { id: 'CallRail', name: 'CallRail', url: 'https://status.callrail.com/api/v2/status.json' },
-  { id: 'Main WordPress Site (hratchyan.com)', name: 'WordPress Site', url: 'https://hratchyan.com' },
+  { id: 'Zapier', name: 'Zapier', url: 'https://status.zapier.com/', statusUrl: 'https://status.zapier.com/' },
+  { id: 'Salesforce', name: 'Salesforce', url: 'https://api.status.salesforce.com/v1/instances/status', statusUrl: 'https://status.salesforce.com/' },
+  { id: 'Google Cloud', name: 'Google Cloud', url: 'https://status.cloud.google.com/summary.json', statusUrl: 'https://status.cloud.google.com/' },
+  { id: 'Microsoft Azure', name: 'Microsoft Azure', url: 'https://azure.status.microsoft.com/en-us/status/feed/', statusUrl: 'https://azure.status.microsoft.com/en-us/status/' },
+  { id: 'CallRail', name: 'CallRail', url: 'https://status.callrail.com/api/v2/status.json', statusUrl: 'https://status.callrail.com/' },
+  { id: 'Main WordPress Site (hratchyan.com)', name: 'WordPress Site', url: 'https://hratchyan.com', statusUrl: 'https://hratchyan.com' },
 ];
 
 // Map service names to their directory names (Upptime converts names to URL-friendly format)
@@ -19,7 +19,23 @@ const SERVICE_DIR_MAP: Record<string, string> = {
   'Main WordPress Site (hratchyan.com)': 'main-wordpress-site-hratchyan-com',
 };
 
-export async function getServiceStatus(serviceId: string): Promise<ServiceStatus | null> {
+export async function getServiceStatus(serviceId: string): Promise<ServiceStatus> {
+  const service = SERVICES.find(s => s.id === serviceId);
+  
+  // Return error state if service not found in config
+  if (!service) {
+    return {
+      name: serviceId,
+      url: '',
+      statusUrl: '',
+      status: 'unknown',
+      uptime: '0%',
+      responseTime: 0,
+      lastChecked: new Date().toISOString(),
+      error: 'Service configuration not found',
+    };
+  }
+
   try {
     const dirName = SERVICE_DIR_MAP[serviceId] || serviceId.toLowerCase().replace(/[^a-z0-9]/g, '-');
     const [uptimeRes, responseTimeRes] = await Promise.all([
@@ -28,14 +44,20 @@ export async function getServiceStatus(serviceId: string): Promise<ServiceStatus
     ]);
 
     if (!uptimeRes.ok || !responseTimeRes.ok) {
-      return null;
+      return {
+        name: service.name,
+        url: service.url,
+        statusUrl: service.statusUrl,
+        status: 'unknown',
+        uptime: 'N/A',
+        responseTime: 0,
+        lastChecked: new Date().toISOString(),
+        error: `Unable to fetch data (HTTP ${uptimeRes.status || responseTimeRes.status})`,
+      };
     }
 
     const uptimeData: UptimeData = await uptimeRes.json();
     const responseTimeData: ResponseTimeData = await responseTimeRes.json();
-
-    const service = SERVICES.find(s => s.id === serviceId);
-    if (!service) return null;
 
     // Determine status based on uptime percentage
     const uptimePercent = parseFloat(uptimeData.message.replace('%', ''));
@@ -48,11 +70,13 @@ export async function getServiceStatus(serviceId: string): Promise<ServiceStatus
     }
 
     // Extract response time (remove 'ms' and convert to number)
-    const responseTime = parseInt(responseTimeData.message.replace('ms', '')) || 0;
+    const responseTimeMatch = responseTimeData.message.match(/(\d+)/);
+    const responseTime = responseTimeMatch ? parseInt(responseTimeMatch[1]) : 0;
 
     return {
       name: service.name,
       url: service.url,
+      statusUrl: service.statusUrl,
       status,
       uptime: uptimeData.message,
       responseTime,
@@ -60,7 +84,16 @@ export async function getServiceStatus(serviceId: string): Promise<ServiceStatus
     };
   } catch (error) {
     console.error(`Error fetching status for ${serviceId}:`, error);
-    return null;
+    return {
+      name: service.name,
+      url: service.url,
+      statusUrl: service.statusUrl,
+      status: 'unknown',
+      uptime: 'N/A',
+      responseTime: 0,
+      lastChecked: new Date().toISOString(),
+      error: error instanceof Error ? error.message : 'Failed to fetch status data',
+    };
   }
 }
 
@@ -69,5 +102,6 @@ export async function getAllServicesStatus(): Promise<ServiceStatus[]> {
     SERVICES.map(service => getServiceStatus(service.id))
   );
 
-  return results.filter((status): status is ServiceStatus => status !== null);
+  // Return all services, including those with errors
+  return results;
 }

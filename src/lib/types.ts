@@ -1,10 +1,12 @@
 export interface ServiceStatus {
   name: string;
   url: string;
-  status: 'up' | 'down' | 'degraded';
+  statusUrl: string;
+  status: 'up' | 'down' | 'degraded' | 'unknown';
   uptime: string;
   responseTime: number;
   lastChecked: string;
+  error?: string; // Optional error message if fetch failed
 }
 
 export interface UptimeData {

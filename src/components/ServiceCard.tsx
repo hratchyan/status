@@ -31,6 +31,14 @@ export function ServiceCard({ service }: ServiceCardProps) {
           text: 'text-yellow-800',
           label: 'Degraded'
         };
+      case 'unknown':
+        return {
+          bg: 'bg-gray-50',
+          border: 'border-gray-300',
+          dot: 'bg-gray-400',
+          text: 'text-gray-700',
+          label: 'Unknown'
+        };
       default:
         return {
           bg: 'bg-gray-50',
@@ -54,22 +62,36 @@ export function ServiceCard({ service }: ServiceCardProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-6 mb-4">
-        <div className="text-center">
-          <div className="text-3xl font-bold text-gray-900 mb-1">{service.uptime}</div>
-          <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Uptime</div>
+      {service.error ? (
+        <div className="mb-4 p-3 bg-gray-100 border border-gray-300 rounded-lg">
+          <div className="flex items-start space-x-2">
+            <svg className="w-5 h-5 text-gray-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            </svg>
+            <div>
+              <p className="text-sm font-medium text-gray-900">Unable to fetch status</p>
+              <p className="text-xs text-gray-600 mt-1">{service.error}</p>
+            </div>
+          </div>
         </div>
-        <div className="text-center">
-          <div className="text-3xl font-bold text-gray-900 mb-1">{service.responseTime}ms</div>
-          <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Response</div>
+      ) : (
+        <div className="grid grid-cols-2 gap-6 mb-4">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-gray-900 mb-1">{service.uptime}</div>
+            <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Uptime</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-gray-900 mb-1">{service.responseTime}ms</div>
+            <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Response</div>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="pt-4 border-t border-gray-200">
         <div className="flex items-center justify-between">
           <span className="text-sm text-gray-600">Status Page</span>
           <a
-            href={service.url}
+            href={service.statusUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
