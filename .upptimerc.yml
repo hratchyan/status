@@ -231,6 +231,3 @@ status-website:
 skipDescriptionUpdate: true
 skipTopicsUpdate: true
 skipHomepageUpdate: true
-commitMessages:
-  commit: "Update status data [skip ci]"
-  summary: "Update status summary [skip ci]"
