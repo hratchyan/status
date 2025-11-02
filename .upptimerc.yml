@@ -38,7 +38,7 @@ sites:
     url: https://status.zapier.com/api/v2/status.json
     type: globalping
     location: sao paulo
-    slug: zapier-s-o-paulo
+    slug: zapier-sao-paulo
     method: GET
     expectedStatusCodes:
       - 200
@@ -70,7 +70,7 @@ sites:
     url: https://api.status.salesforce.com/v1/instances/status
     type: globalping
     location: sao paulo
-    slug: salesforce-s-o-paulo
+    slug: salesforce-sao-paulo
     method: GET
   - name: Google Cloud (Los Angeles)
     url: https://status.cloud.google.com/summary.json
@@ -100,7 +100,7 @@ sites:
     url: https://status.cloud.google.com/summary.json
     type: globalping
     location: sao paulo
-    slug: google-cloud-s-o-paulo
+    slug: google-cloud-sao-paulo
     method: GET
   - name: Microsoft Azure (Los Angeles)
     url: https://azure.status.microsoft.com/en-us/status/feed/
@@ -130,7 +130,7 @@ sites:
     url: https://azure.status.microsoft.com/en-us/status/feed/
     type: globalping
     location: sao paulo
-    slug: microsoft-azure-s-o-paulo
+    slug: microsoft-azure-sao-paulo
     method: GET
   - name: CallRail (Los Angeles)
     url: https://status.callrail.com/api/v2/status.json
@@ -160,7 +160,7 @@ sites:
     url: https://status.callrail.com/api/v2/status.json
     type: globalping
     location: sao paulo
-    slug: callrail-s-o-paulo
+    slug: callrail-sao-paulo
     method: GET
   - name: WordPress Site (Los Angeles)
     url: https://hratchyan.com
@@ -202,7 +202,7 @@ sites:
     url: https://hratchyan.com
     type: globalping
     location: sao paulo
-    slug: wordpress-site-s-o-paulo
+    slug: wordpress-site-sao-paulo
     method: GET
     expectedStatusCodes:
       - 200

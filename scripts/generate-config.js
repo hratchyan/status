@@ -37,8 +37,10 @@ function readYAML(filePath) {
 function generateSlug(serviceName, locationName) {
   // Upptime creates slugs from "ServiceName (LocationName)" format
   const fullName = `${serviceName} (${locationName})`;
+  // Normalize accented characters first (e.g., "São Paulo" → "Sao Paulo")
+  const normalized = fullName.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   // Convert to lowercase and replace non-alphanumeric chars with hyphens
-  const slug = fullName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const slug = normalized.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   return slug;
 }
 
