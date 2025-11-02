@@ -1,3 +1,10 @@
+export interface Location {
+  name: string;
+  code: string;
+  coordinates: [number, number];
+  region: string;
+}
+
 export interface ServiceStatus {
   name: string;
   url: string;
@@ -6,6 +13,7 @@ export interface ServiceStatus {
   uptime: string;
   responseTime: number;
   lastChecked: string;
+  location?: Location; // Optional location for multi-region monitoring
   error?: string; // Optional error message if fetch failed
 }
 

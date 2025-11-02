@@ -7,12 +7,15 @@
     "build": "next build",
     "export": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate-config": "node scripts/generate-config.js",
+    "prebuild": "npm run generate-config"
   },
   "dependencies": {
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "next": "16.0.1"
+    "next": "16.0.1",
+    "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "typescript": "^5",

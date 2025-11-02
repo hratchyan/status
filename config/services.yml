@@ -1,0 +1,37 @@
+# Service Monitoring Configuration
+# This is the single source of truth for all monitored services
+# Add or remove services here, then run: npm run generate-config
+
+services:
+  - name: Zapier
+    url: https://status.zapier.com/api/v2/status.json
+    statusUrl: https://status.zapier.com
+    method: GET
+    expectedStatusCodes: [200]
+    
+  - name: Salesforce
+    url: https://api.status.salesforce.com/v1/instances/status
+    statusUrl: https://status.salesforce.com
+    method: GET
+    
+  - name: Google Cloud
+    url: https://status.cloud.google.com/summary.json
+    statusUrl: https://status.cloud.google.com
+    method: GET
+    
+  - name: Microsoft Azure
+    url: https://azure.status.microsoft.com/en-us/status/feed/
+    statusUrl: https://azure.status.microsoft.com/en-us/status
+    method: GET
+    
+  - name: CallRail
+    url: https://status.callrail.com/api/v2/status.json
+    statusUrl: https://status.callrail.com
+    method: GET
+    
+  - name: WordPress Site
+    url: https://hratchyan.com
+    statusUrl: https://hratchyan.com
+    method: GET
+    expectedStatusCodes: [200]
+    maxResponseTime: 10000

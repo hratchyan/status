@@ -1,81 +1,233 @@
 owner: hratchyan
 repo: status
 user-agent: hratchyan-status-monitor
-
 sites:
-# Major Platforms with Status APIs
-- name: Zapier
-  url: https://status.zapier.com/api/v2/status.json
-  method: GET
-  expectedStatusCodes: [200]
-
-- name: Salesforce
-  url: https://api.status.salesforce.com/v1/instances/status
-  method: GET
-
-- name: Google Cloud
-  url: https://status.cloud.google.com/summary.json
-  method: GET
-
-- name: Microsoft Azure
-  url: https://azure.status.microsoft.com/en-us/status/feed/
-  method: GET
-
-- name: CallRail
-  url: https://status.callrail.com/api/v2/status.json
-  method: GET
-
-# WordPress Sites
-- name: Main WordPress Site (hratchyan.com)
-  url: https://hratchyan.com/wp-admin/admin-ajax.php?action=heartbeat
-  method: POST
-  expectedStatusCodes: [200]
-  maxResponseTime: 10000
-
+  - name: Zapier (Los Angeles)
+    url: https://status.zapier.com/api/v2/status.json
+    type: globalping
+    location: los angeles
+    slug: zapier-la
+    method: GET
+    expectedStatusCodes:
+      - 200
+  - name: Zapier (New York)
+    url: https://status.zapier.com/api/v2/status.json
+    type: globalping
+    location: new york
+    slug: zapier-ny
+    method: GET
+    expectedStatusCodes:
+      - 200
+  - name: Zapier (London)
+    url: https://status.zapier.com/api/v2/status.json
+    type: globalping
+    location: london
+    slug: zapier-ldn
+    method: GET
+    expectedStatusCodes:
+      - 200
+  - name: Zapier (Singapore)
+    url: https://status.zapier.com/api/v2/status.json
+    type: globalping
+    location: singapore
+    slug: zapier-sg
+    method: GET
+    expectedStatusCodes:
+      - 200
+  - name: Zapier (São Paulo)
+    url: https://status.zapier.com/api/v2/status.json
+    type: globalping
+    location: sao paulo
+    slug: zapier-sp
+    method: GET
+    expectedStatusCodes:
+      - 200
+  - name: Salesforce (Los Angeles)
+    url: https://api.status.salesforce.com/v1/instances/status
+    type: globalping
+    location: los angeles
+    slug: salesforce-la
+    method: GET
+  - name: Salesforce (New York)
+    url: https://api.status.salesforce.com/v1/instances/status
+    type: globalping
+    location: new york
+    slug: salesforce-ny
+    method: GET
+  - name: Salesforce (London)
+    url: https://api.status.salesforce.com/v1/instances/status
+    type: globalping
+    location: london
+    slug: salesforce-ldn
+    method: GET
+  - name: Salesforce (Singapore)
+    url: https://api.status.salesforce.com/v1/instances/status
+    type: globalping
+    location: singapore
+    slug: salesforce-sg
+    method: GET
+  - name: Salesforce (São Paulo)
+    url: https://api.status.salesforce.com/v1/instances/status
+    type: globalping
+    location: sao paulo
+    slug: salesforce-sp
+    method: GET
+  - name: Google Cloud (Los Angeles)
+    url: https://status.cloud.google.com/summary.json
+    type: globalping
+    location: los angeles
+    slug: google-cloud-la
+    method: GET
+  - name: Google Cloud (New York)
+    url: https://status.cloud.google.com/summary.json
+    type: globalping
+    location: new york
+    slug: google-cloud-ny
+    method: GET
+  - name: Google Cloud (London)
+    url: https://status.cloud.google.com/summary.json
+    type: globalping
+    location: london
+    slug: google-cloud-ldn
+    method: GET
+  - name: Google Cloud (Singapore)
+    url: https://status.cloud.google.com/summary.json
+    type: globalping
+    location: singapore
+    slug: google-cloud-sg
+    method: GET
+  - name: Google Cloud (São Paulo)
+    url: https://status.cloud.google.com/summary.json
+    type: globalping
+    location: sao paulo
+    slug: google-cloud-sp
+    method: GET
+  - name: Microsoft Azure (Los Angeles)
+    url: https://azure.status.microsoft.com/en-us/status/feed/
+    type: globalping
+    location: los angeles
+    slug: microsoft-azure-la
+    method: GET
+  - name: Microsoft Azure (New York)
+    url: https://azure.status.microsoft.com/en-us/status/feed/
+    type: globalping
+    location: new york
+    slug: microsoft-azure-ny
+    method: GET
+  - name: Microsoft Azure (London)
+    url: https://azure.status.microsoft.com/en-us/status/feed/
+    type: globalping
+    location: london
+    slug: microsoft-azure-ldn
+    method: GET
+  - name: Microsoft Azure (Singapore)
+    url: https://azure.status.microsoft.com/en-us/status/feed/
+    type: globalping
+    location: singapore
+    slug: microsoft-azure-sg
+    method: GET
+  - name: Microsoft Azure (São Paulo)
+    url: https://azure.status.microsoft.com/en-us/status/feed/
+    type: globalping
+    location: sao paulo
+    slug: microsoft-azure-sp
+    method: GET
+  - name: CallRail (Los Angeles)
+    url: https://status.callrail.com/api/v2/status.json
+    type: globalping
+    location: los angeles
+    slug: callrail-la
+    method: GET
+  - name: CallRail (New York)
+    url: https://status.callrail.com/api/v2/status.json
+    type: globalping
+    location: new york
+    slug: callrail-ny
+    method: GET
+  - name: CallRail (London)
+    url: https://status.callrail.com/api/v2/status.json
+    type: globalping
+    location: london
+    slug: callrail-ldn
+    method: GET
+  - name: CallRail (Singapore)
+    url: https://status.callrail.com/api/v2/status.json
+    type: globalping
+    location: singapore
+    slug: callrail-sg
+    method: GET
+  - name: CallRail (São Paulo)
+    url: https://status.callrail.com/api/v2/status.json
+    type: globalping
+    location: sao paulo
+    slug: callrail-sp
+    method: GET
+  - name: WordPress Site (Los Angeles)
+    url: https://hratchyan.com
+    type: globalping
+    location: los angeles
+    slug: wordpress-site-la
+    method: GET
+    expectedStatusCodes:
+      - 200
+    maxResponseTime: 10000
+  - name: WordPress Site (New York)
+    url: https://hratchyan.com
+    type: globalping
+    location: new york
+    slug: wordpress-site-ny
+    method: GET
+    expectedStatusCodes:
+      - 200
+    maxResponseTime: 10000
+  - name: WordPress Site (London)
+    url: https://hratchyan.com
+    type: globalping
+    location: london
+    slug: wordpress-site-ldn
+    method: GET
+    expectedStatusCodes:
+      - 200
+    maxResponseTime: 10000
+  - name: WordPress Site (Singapore)
+    url: https://hratchyan.com
+    type: globalping
+    location: singapore
+    slug: wordpress-site-sg
+    method: GET
+    expectedStatusCodes:
+      - 200
+    maxResponseTime: 10000
+  - name: WordPress Site (São Paulo)
+    url: https://hratchyan.com
+    type: globalping
+    location: sao paulo
+    slug: wordpress-site-sp
+    method: GET
+    expectedStatusCodes:
+      - 200
+    maxResponseTime: 10000
 status-website:
-  name: "Marketing Operations Status"
+  name: Marketing Operations Status
   cname: statuscheck.hratchyan.com
   baseUrl: /
-
-  introTitle: "**Marketing Operations Status**"
-  introMessage: "Real-time monitoring of marketing tools and services"
-
+  introTitle: '**Marketing Operations Status**'
+  introMessage: Real-time monitoring of marketing tools and services from multiple global locations
   theme: light
   navbar:
     - title: Status
       href: /
     - title: History
       href: /history
-
-  # Custom branding
   logo: https://hratchyan.com/wp-content/uploads/2024/01/hratchyan-logo.png
   favicon: https://hratchyan.com/favicon.ico
-
-  # Custom colors
   colors:
-    primary: "#1a365d"  # Dark blue
-    secondary: "#2d3748" # Gray
-    success: "#38a169"  # Green
-    warning: "#d69e2e"  # Yellow
-    danger: "#e53e3e"   # Red
-    info: "#3182ce"     # Blue
-
-  # Custom template
-  htmlTemplate: index.html
-
-# Webhook notifications (for custom integrations)
-notifications:
-  - type: webhook
-    url: https://your-webhook-endpoint.com/upptime-notification
-    headers:
-      Authorization: "Bearer YOUR_WEBHOOK_TOKEN"
-      Content-Type: "application/json"
-    body: |
-      {
-        "status": "{{ status }}",
-        "site": "{{ site }}",
-        "time": "{{ time }}",
-        "url": "{{ url }}",
-        "responseTime": "{{ responseTime }}",
-        "timestamp": "{{ timestamp }}"
-      }
+    primary: '#1a365d'
+    secondary: '#2d3748'
+    success: '#38a169'
+    warning: '#d69e2e'
+    danger: '#e53e3e'
+    info: '#3182ce'
+skipDescriptionUpdate: true
+skipTopicsUpdate: true
+skipHomepageUpdate: true

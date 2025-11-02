@@ -1,0 +1,35 @@
+# Geographic Monitoring Locations
+# These locations are used with Globalping to monitor services from different regions
+# Globalping token is optional but recommended for higher limits (500 tests/hour vs 250/hour)
+# Add GLOBALPING_TOKEN to GitHub repository secrets to use authenticated requests
+
+locations:
+  - name: Los Angeles
+    code: la
+    globalping: los angeles
+    coordinates: [-118.2437, 34.0522]
+    region: North America
+    
+  - name: New York
+    code: ny
+    globalping: new york
+    coordinates: [-74.0060, 40.7128]
+    region: North America
+    
+  - name: London
+    code: ldn
+    globalping: london
+    coordinates: [-0.1276, 51.5074]
+    region: Europe
+    
+  - name: Singapore
+    code: sg
+    globalping: singapore
+    coordinates: [103.8198, 1.3521]
+    region: Asia-Pacific
+    
+  - name: São Paulo
+    code: sp
+    globalping: sao paulo
+    coordinates: [-46.6333, -23.5505]
+    region: South America
