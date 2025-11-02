@@ -5,62 +5,81 @@ interface ServiceCardProps {
 }
 
 export function ServiceCard({ service }: ServiceCardProps) {
-  const getStatusColor = (status: string) => {
+  const getStatusStyles = (status: string) => {
     switch (status) {
       case 'up':
-        return 'bg-green-500';
+        return {
+          bg: 'bg-green-50',
+          border: 'border-green-200',
+          dot: 'bg-green-500',
+          text: 'text-green-800',
+          label: 'Operational'
+        };
       case 'down':
-        return 'bg-red-500';
+        return {
+          bg: 'bg-red-50',
+          border: 'border-red-200',
+          dot: 'bg-red-500',
+          text: 'text-red-800',
+          label: 'Down'
+        };
       case 'degraded':
-        return 'bg-yellow-500';
+        return {
+          bg: 'bg-yellow-50',
+          border: 'border-yellow-200',
+          dot: 'bg-yellow-500',
+          text: 'text-yellow-800',
+          label: 'Degraded'
+        };
       default:
-        return 'bg-gray-500';
+        return {
+          bg: 'bg-gray-50',
+          border: 'border-gray-200',
+          dot: 'bg-gray-500',
+          text: 'text-gray-800',
+          label: 'Unknown'
+        };
     }
   };
 
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'up':
-        return 'Operational';
-      case 'down':
-        return 'Down';
-      case 'degraded':
-        return 'Degraded';
-      default:
-        return 'Unknown';
-    }
-  };
+  const styles = getStatusStyles(service.status);
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
+    <div className={`rounded-xl border-2 p-6 transition-all duration-200 hover:shadow-lg hover:scale-[1.02] ${styles.bg} ${styles.border}`}>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">{service.name}</h3>
-        <div className="flex items-center space-x-2">
-          <div className={`w-3 h-3 rounded-full ${getStatusColor(service.status)}`}></div>
-          <span className="text-sm text-gray-600">{getStatusText(service.status)}</span>
+        <h3 className="text-xl font-bold text-gray-900">{service.name}</h3>
+        <div className={`flex items-center space-x-2 px-3 py-1 rounded-full ${styles.bg} border ${styles.border}`}>
+          <div className={`w-2 h-2 rounded-full ${styles.dot}`}></div>
+          <span className={`text-sm font-medium ${styles.text}`}>{styles.label}</span>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-6 mb-4">
         <div className="text-center">
-          <div className="text-2xl font-bold text-gray-900">{service.uptime}</div>
-          <div className="text-sm text-gray-500 uppercase tracking-wide">Uptime</div>
+          <div className="text-3xl font-bold text-gray-900 mb-1">{service.uptime}</div>
+          <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Uptime</div>
         </div>
         <div className="text-center">
-          <div className="text-2xl font-bold text-gray-900">{service.responseTime}ms</div>
-          <div className="text-sm text-gray-500 uppercase tracking-wide">Response</div>
+          <div className="text-3xl font-bold text-gray-900 mb-1">{service.responseTime}ms</div>
+          <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Response</div>
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-gray-100">
-        <a
-          href={service.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-blue-600 hover:text-blue-800 truncate block"
-        >
-          {service.url}
-        </a>
+      <div className="pt-4 border-t border-gray-200">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600">Status Page</span>
+          <a
+            href={service.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            View Status
+            <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   );

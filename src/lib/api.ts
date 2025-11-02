@@ -1,11 +1,12 @@
 import { UptimeData, ResponseTimeData, ServiceStatus } from './types';
 
 const SERVICES = [
-  { id: 'google', name: 'Google', url: 'https://www.google.com' },
-  { id: 'hacker-news', name: 'Hacker News', url: 'https://news.ycombinator.com' },
-  { id: 'wikipedia', name: 'Wikipedia', url: 'https://en.wikipedia.org' },
-  { id: 'i-pv6-test', name: 'IPv6 Test', url: 'https://test-ipv6.com' },
-  { id: 'test-broken-site', name: 'Test Broken Site', url: 'https://thissitedoesnotexist.koj.co' },
+  { id: 'Zapier', name: 'Zapier', url: 'https://status.zapier.com/api/v2/status.json' },
+  { id: 'Salesforce', name: 'Salesforce', url: 'https://api.status.salesforce.com/v1/instances/status' },
+  { id: 'Google Cloud', name: 'Google Cloud', url: 'https://status.cloud.google.com/summary.json' },
+  { id: 'Microsoft Azure', name: 'Microsoft Azure', url: 'https://azure.status.microsoft.com/en-us/status/feed/' },
+  { id: 'CallRail', name: 'CallRail', url: 'https://status.callrail.com/api/v2/status.json' },
+  { id: 'Main WordPress Site (hratchyan.com)', name: 'WordPress Site', url: 'https://hratchyan.com' },
 ];
 
 export async function getServiceStatus(serviceId: string): Promise<ServiceStatus | null> {
