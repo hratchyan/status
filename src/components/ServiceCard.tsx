@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { AggregatedServiceStatus } from '@/lib/types';
 
 interface ServiceCardProps {
@@ -8,7 +7,6 @@ interface ServiceCardProps {
 }
 
 export function ServiceCard({ service }: ServiceCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
   
   const getStatusStyles = (status: string) => {
     switch (status) {
@@ -145,79 +143,11 @@ export function ServiceCard({ service }: ServiceCardProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
             </a>
-            
-            {service.detailedStatus && (
-              <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors"
-              >
-                {isExpanded ? 'Hide Details' : 'Show Details'}
-                <svg 
-                  className={`w-4 h-4 ml-1 transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-            )}
           </div>
         </div>
       </div>
 
-      {/* Expandable Detailed Status */}
-      {isExpanded && service.detailedStatus && (
-        <div className="px-6 pb-6 pt-0">
-          <div className="bg-white rounded-lg border-2 border-gray-200 p-4">
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Detailed Status Information</h4>
-            
-            {service.detailedStatus.components && service.detailedStatus.components.length > 0 && (
-              <div className="mb-4">
-                <div className="text-xs text-gray-600 uppercase tracking-wider font-medium mb-2">Components</div>
-                <div className="grid grid-cols-2 gap-2">
-                  {service.detailedStatus.components.map((component, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                      <span className="text-sm text-gray-700">{component.name}</span>
-                      <span className={`text-xs font-medium px-2 py-1 rounded ${
-                        component.status === 'operational' 
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {component.status}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {service.detailedStatus.incidents && service.detailedStatus.incidents.length > 0 && (
-              <div>
-                <div className="text-xs text-gray-600 uppercase tracking-wider font-medium mb-2">Recent Incidents</div>
-                <div className="space-y-2">
-                  {service.detailedStatus.incidents.map((incident, idx) => (
-                    <div key={idx} className="p-2 bg-gray-50 rounded">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-900">{incident.name}</span>
-                        <span className="text-xs text-gray-600">
-                          {new Date(incident.created_at).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <span className="text-xs text-gray-600">{incident.status}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {(!service.detailedStatus.components || service.detailedStatus.components.length === 0) &&
-             (!service.detailedStatus.incidents || service.detailedStatus.incidents.length === 0) && (
-              <p className="text-sm text-gray-600">No additional details available.</p>
-            )}
-          </div>
-        </div>
-      )}
+
     </div>
   );
 }

@@ -27,20 +27,6 @@ export interface LocationStatus {
   error?: string;
 }
 
-export interface DetailedServiceStatus {
-  indicator?: 'none' | 'minor' | 'major' | 'critical';
-  description?: string;
-  components?: Array<{
-    name: string;
-    status: string;
-  }>;
-  incidents?: Array<{
-    name: string;
-    status: string;
-    created_at: string;
-  }>;
-}
-
 export interface AggregatedServiceStatus {
   id: string;
   name: string;
@@ -52,7 +38,6 @@ export interface AggregatedServiceStatus {
   averageResponseTime: number;
   overallUptime: string;
   lastChecked: string;
-  detailedStatus?: DetailedServiceStatus;
   primaryLocation: string; // Los Angeles as priority
 }
 
