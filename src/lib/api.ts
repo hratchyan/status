@@ -278,6 +278,8 @@ export async function getServiceStatusByLocation(serviceId: string): Promise<Map
 
 import { AggregatedServiceStatus, LocationStatus } from './types';
 
+
+
 /**
  * Get aggregated status for a single service across all locations
  */
@@ -327,18 +329,17 @@ export async function getAggregatedServiceStatus(serviceId: string): Promise<Agg
     ? `${(uptimeValues.reduce((a, b) => a + b, 0) / uptimeValues.length).toFixed(2)}%`
     : 'N/A';
   
-  // Determine overall status based on monitoring data, not detailed status fetching
+  // Determine overall status
   let overallStatus: 'up' | 'down' | 'degraded' | 'unknown' = 'up';
   const downCount = locationStatuses.filter(l => l.status === 'down').length;
   const degradedCount = locationStatuses.filter(l => l.status === 'degraded').length;
-  const unknownCount = locationStatuses.filter(l => l.status === 'unknown').length;
-
-  if (unknownCount >= locationStatuses.length / 2) {
-    overallStatus = 'unknown';
-  } else if (downCount >= locationStatuses.length / 2) {
+  
+  if (downCount >= locationStatuses.length / 2) {
     overallStatus = 'down';
   } else if (downCount > 0 || degradedCount > 0) {
     overallStatus = 'degraded';
+  } else if (hasErrors) {
+    overallStatus = 'unknown';
   }
   
   // Determine status message

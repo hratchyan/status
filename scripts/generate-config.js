@@ -290,48 +290,9 @@ export async function getServiceStatusByLocation(serviceId: string): Promise<Map
 
 // Aggregation functions for horizontal cards
 
-import { AggregatedServiceStatus, LocationStatus, DetailedServiceStatus } from './types';
+import { AggregatedServiceStatus, LocationStatus } from './types';
 
-/**
- * Fetch detailed status from service's status API
- */
-async function fetchDetailedStatus(service: ServiceConfig): Promise<DetailedServiceStatus | undefined> {
-  if (service.type !== 'status-api') return undefined;
-  
-  try {
-    const response = await fetch(service.statusApiUrl);
-    if (!response.ok) return undefined;
-    
-    const data = await response.json();
-    
-    // Parse based on API format
-    if (service.apiFormat === 'statuspage') {
-      // StatusPage.io format (Zapier, CallRail)
-      return {
-        indicator: data.status?.indicator || 'none',
-        description: data.status?.description || 'All Systems Operational',
-        components: data.components?.map((c: any) => ({
-          name: c.name,
-          status: c.status
-        })),
-        incidents: data.incidents?.slice(0, 3).map((i: any) => ({
-          name: i.name,
-          status: i.status,
-          created_at: i.created_at
-        }))
-      };
-    }
-    
-    // For custom formats, return basic info
-    return {
-      indicator: 'none',
-      description: 'Service operational'
-    };
-  } catch (error) {
-    console.error(\`Error fetching detailed status for \${service.name}:\`, error);
-    return undefined;
-  }
-}
+
 
 /**
  * Get aggregated status for a single service across all locations
@@ -395,21 +356,16 @@ export async function getAggregatedServiceStatus(serviceId: string): Promise<Agg
     overallStatus = 'unknown';
   }
   
-  // Fetch detailed status for status-api services
-  const detailedStatus = await fetchDetailedStatus(service);
-  
   // Determine status message
   let statusMessage = 'All Systems Operational';
-  if (detailedStatus?.description) {
-    statusMessage = detailedStatus.description;
-  } else if (overallStatus === 'down') {
+  if (overallStatus === 'down') {
     statusMessage = 'Service Down';
   } else if (overallStatus === 'degraded') {
     statusMessage = 'Performance Degraded';
   } else if (overallStatus === 'unknown') {
     statusMessage = 'Status Unknown';
   }
-  
+
   return {
     id: service.id,
     name: service.name,
@@ -421,7 +377,6 @@ export async function getAggregatedServiceStatus(serviceId: string): Promise<Agg
     averageResponseTime,
     overallUptime,
     lastChecked: new Date().toISOString(),
-    detailedStatus,
     primaryLocation: 'la' // Los Angeles as priority
   };
 }
