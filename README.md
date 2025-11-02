@@ -76,6 +76,7 @@ See the [Setup Guide](docs/setup.md) for detailed instructions.
 ## 📊 Monitored Services
 
 Currently monitoring:
+
 - **Zapier** - Automation platform
 - **Salesforce** - CRM platform
 - **Google Cloud** - Cloud infrastructure
