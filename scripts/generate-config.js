@@ -32,12 +32,14 @@ function readYAML(filePath) {
   }
 }
 
-// Generate slug from service name and location code
-// Upptime uses full location names, not short codes
+// Generate slug from service name and location name to match Upptime's behavior
+// Upptime generates slugs from the full 'name' field, not custom slug values
 function generateSlug(serviceName, locationName) {
-  const serviceSlug = serviceName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-  const locationSlug = locationName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-  return `${serviceSlug}-${locationSlug}`;
+  // Upptime creates slugs from "ServiceName (LocationName)" format
+  const fullName = `${serviceName} (${locationName})`;
+  // Convert to lowercase and replace non-alphanumeric chars with hyphens
+  const slug = fullName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  return slug;
 }
 
 // Generate .upptimerc.yml
