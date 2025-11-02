@@ -188,6 +188,8 @@ export async function getServiceStatus(serviceId: string, locationCode?: string)
     ]);
 
     if (!uptimeRes.ok || !responseTimeRes.ok) {
+      // Don't treat 404 as an error - it's expected when monitoring data hasn't been generated yet
+      const isExpectedError = (uptimeRes.status === 404 || responseTimeRes.status === 404);
       return {
         name: location ? `${service.name} (${location.name})` : service.name,
         url: service.statusApiUrl,
@@ -196,7 +198,7 @@ export async function getServiceStatus(serviceId: string, locationCode?: string)
         uptime: 'N/A',
         responseTime: 0,
         lastChecked: new Date().toISOString(),
-        error: `Unable to fetch data (HTTP ${uptimeRes.status || responseTimeRes.status})`,
+        error: isExpectedError ? undefined : `Unable to fetch data (HTTP ${uptimeRes.status || responseTimeRes.status})`,
         ...(location && { location })
       };
     }
@@ -229,7 +231,10 @@ export async function getServiceStatus(serviceId: string, locationCode?: string)
       ...(location && { location })
     };
   } catch (error) {
-    console.error(`Error fetching status for ${serviceId}:`, error);
+    // Only log unexpected errors, not 404s which are expected during initial setup
+    if (!(error instanceof TypeError && error.message.includes('Failed to fetch'))) {
+      console.error(`Error fetching status for ${serviceId}:`, error);
+    }
     return {
       name: location ? `${service.name} (${location.name})` : service.name,
       url: service.statusApiUrl,
