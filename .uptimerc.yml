@@ -46,3 +46,36 @@ status-website:
       href: /
     - title: History
       href: /history
+
+  # Custom branding
+  logo: https://hratchyan.com/wp-content/uploads/2024/01/hratchyan-logo.png
+  favicon: https://hratchyan.com/favicon.ico
+
+  # Custom colors
+  colors:
+    primary: "#1a365d"  # Dark blue
+    secondary: "#2d3748" # Gray
+    success: "#38a169"  # Green
+    warning: "#d69e2e"  # Yellow
+    danger: "#e53e3e"   # Red
+    info: "#3182ce"     # Blue
+
+  # Custom template
+  htmlTemplate: index.html
+
+# Webhook notifications (for custom integrations)
+notifications:
+  - type: webhook
+    url: https://your-webhook-endpoint.com/upptime-notification
+    headers:
+      Authorization: "Bearer YOUR_WEBHOOK_TOKEN"
+      Content-Type: "application/json"
+    body: |
+      {
+        "status": "{{ status }}",
+        "site": "{{ site }}",
+        "time": "{{ time }}",
+        "url": "{{ url }}",
+        "responseTime": "{{ responseTime }}",
+        "timestamp": "{{ timestamp }}"
+      }
