@@ -33,9 +33,11 @@ function readYAML(filePath) {
 }
 
 // Generate slug from service name and location code
-function generateSlug(serviceName, locationCode) {
+// Upptime uses full location names, not short codes
+function generateSlug(serviceName, locationName) {
   const serviceSlug = serviceName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-  return `${serviceSlug}-${locationCode}`;
+  const locationSlug = locationName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  return `${serviceSlug}-${locationSlug}`;
 }
 
 // Generate .upptimerc.yml
@@ -53,7 +55,7 @@ function generateUptimeRC(services, locations) {
         url: monitorUrl,
         type: 'globalping',
         location: location.globalping,
-        slug: generateSlug(service.name, location.code),
+        slug: generateSlug(service.name, location.name),
         ...(service.method && { method: service.method }),
         ...(service.expectedStatusCodes && { expectedStatusCodes: service.expectedStatusCodes }),
         ...(service.maxResponseTime && { maxResponseTime: service.maxResponseTime })
@@ -157,7 +159,7 @@ export const SERVICES: ServiceConfig[] = ${JSON.stringify(
 const SERVICE_DIR_MAP: Record<string, string> = {
 ${services.services.map(svc => 
   locations.locations.map(loc => 
-    `  '${svc.name} (${loc.name})': '${generateSlug(svc.name, loc.code)}'`
+    `  '${svc.name} (${loc.name})': '${generateSlug(svc.name, loc.name)}'`
   ).join(',\n')
 ).join(',\n')}
 };
