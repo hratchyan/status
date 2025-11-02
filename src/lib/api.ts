@@ -9,11 +9,22 @@ const SERVICES = [
   { id: 'Main WordPress Site (hratchyan.com)', name: 'WordPress Site', url: 'https://hratchyan.com' },
 ];
 
+// Map service names to their directory names (Upptime converts names to URL-friendly format)
+const SERVICE_DIR_MAP: Record<string, string> = {
+  'Zapier': 'zapier',
+  'Salesforce': 'salesforce',
+  'Google Cloud': 'google-cloud',
+  'Microsoft Azure': 'microsoft-azure',
+  'CallRail': 'callrail',
+  'Main WordPress Site (hratchyan.com)': 'main-wordpress-site-hratchyan-com',
+};
+
 export async function getServiceStatus(serviceId: string): Promise<ServiceStatus | null> {
   try {
+    const dirName = SERVICE_DIR_MAP[serviceId] || serviceId.toLowerCase().replace(/[^a-z0-9]/g, '-');
     const [uptimeRes, responseTimeRes] = await Promise.all([
-      fetch(`/api/${serviceId}/uptime.json`),
-      fetch(`/api/${serviceId}/response-time.json`)
+      fetch(`/api/${dirName}/uptime.json`),
+      fetch(`/api/${dirName}/response-time.json`)
     ]);
 
     if (!uptimeRes.ok || !responseTimeRes.ok) {
