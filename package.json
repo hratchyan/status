@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "eslint",
     "generate-config": "node scripts/generate-config.js",
-    "sync-api": "rm -rf public/api && cp -r api public/api",
+    "sync-api": "rm -rf public/data && cp -r api public/data",
     "prebuild": "npm run generate-config"
   },
   "dependencies": {
