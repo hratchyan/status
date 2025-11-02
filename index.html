@@ -3,96 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketing Operations Status - Hratchyan</title>
+    <title>Status - Service Monitoring</title>
     <link rel="icon" href="https://hratchyan.com/favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles for enhanced branding */
         :root {
-            --primary-color: #1a365d;
-            --secondary-color: #2d3748;
-            --success-color: #38a169;
-            --warning-color: #d69e2e;
-            --danger-color: #e53e3e;
-            --info-color: #3182ce;
-            --background-color: #f7fafc;
-            --card-background: #ffffff;
-            --text-primary: #1a202c;
-            --text-secondary: #718096;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --background-color: #ffffff;
+            --card-background: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--background-color);
             color: var(--text-primary);
-            line-height: 1.6;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
         }
 
-        .hero-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 4rem 0 3rem;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .header {
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.3;
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 0.5rem 0;
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-logo {
-            max-width: 200px;
-            height: auto;
-            margin-bottom: 2rem;
-            filter: brightness(0) invert(1);
-        }
-
-        .hero-title {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .hero-subtitle {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
+        .header-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin: 0;
         }
 
         .status-overview {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
+            margin: 2rem 0 3rem;
         }
 
         .status-card {
             background: var(--card-background);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
             text-align: center;
-        }
-
-        .status-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
         .status-icon {
@@ -104,6 +82,7 @@
             justify-content: center;
             margin-bottom: 1rem;
             font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .status-up { background-color: var(--success-color); color: white; }
@@ -111,7 +90,7 @@
         .status-degraded { background-color: var(--warning-color); color: white; }
 
         .status-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--text-primary);
@@ -120,52 +99,51 @@
         .status-text {
             font-size: 0.9rem;
             color: var(--text-secondary);
-            margin-bottom: 0;
+            margin: 0;
+        }
+
+        .services-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
         }
 
         .service-card {
             background: var(--card-background);
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: box-shadow 0.2s ease;
         }
 
         .service-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .service-header {
             display: flex;
             align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .service-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            font-size: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         .service-name {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-primary);
             margin: 0;
+            flex: 1;
         }
 
         .service-status {
@@ -175,16 +153,17 @@
         }
 
         .status-indicator {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             margin-right: 0.5rem;
+            flex-shrink: 0;
         }
 
         .status-label {
+            font-size: 0.8rem;
             font-weight: 500;
             text-transform: uppercase;
-            font-size: 0.8rem;
             letter-spacing: 0.5px;
         }
 
@@ -199,84 +178,73 @@
         }
 
         .metric-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
             display: block;
+            margin-bottom: 0.25rem;
         }
 
         .metric-label {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
+            font-size: 0.75rem;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .footer {
-            background: var(--card-background);
-            padding: 3rem 0 2rem;
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0 1rem;
             text-align: center;
-            border-radius: 24px 24px 0 0;
             margin-top: 3rem;
-        }
-
-        .footer-content {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        .footer-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-
-        .footer-text {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
             gap: 2rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .footer-link {
-            color: var(--primary-color);
+            color: var(--text-secondary);
             text-decoration: none;
-            font-weight: 500;
+            font-size: 0.9rem;
             transition: color 0.2s ease;
         }
 
         .footer-link:hover {
-            color: var(--secondary-color);
+            color: var(--text-primary);
         }
 
-        .footer-logo {
-            max-width: 120px;
-            height: auto;
-            opacity: 0.7;
+        .footer-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 0;
         }
 
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.2rem;
+            .header {
+                padding: 2rem 0 1.5rem;
             }
 
-            .hero-subtitle {
-                font-size: 1.1rem;
+            .header-title {
+                font-size: 2rem;
+            }
+
+            .header-subtitle {
+                font-size: 1rem;
+            }
+
+            .status-overview {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin: 1.5rem 0 2rem;
             }
 
             .services-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .status-overview {
-                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
             }
 
             .footer-links {
@@ -287,18 +255,16 @@
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <img src="https://hratchyan.com/wp-content/uploads/2024/01/hratchyan-logo.png" alt="Hratchyan Logo" class="hero-logo">
-            <h1 class="hero-title">Marketing Operations Status</h1>
-            <p class="hero-subtitle">Real-time monitoring of your critical marketing tools and services</p>
+    <header class="header">
+        <div class="container">
+            <h1 class="header-title">Service Status</h1>
+            <p class="header-subtitle">Real-time monitoring of critical services and infrastructure</p>
         </div>
-    </section>
+    </header>
 
-    <!-- Status Overview -->
-    <div class="container">
-        <div class="status-overview">
+    <main class="container">
+        <!-- Status Overview -->
+        <section class="status-overview">
             <div class="status-card">
                 <div class="status-icon status-up">✓</div>
                 <h3 class="status-title">All Systems Operational</h3>
@@ -314,29 +280,23 @@
                 <h3 class="status-title">Real-time Monitoring</h3>
                 <p class="status-text">Updates every 5 minutes</p>
             </div>
-        </div>
+        </section>
 
         <!-- Services Status -->
-        <div class="services-grid">
-            <!-- Service cards will be populated by Upptime -->
-        </div>
-    </div>
+        <section class="services-section">
+            <h2 class="section-title">Service Status</h2>
+            <div id="upptime-content"></div>
+        </section>
+    </main>
 
-    <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <h3 class="footer-title">Powered by Hratchyan</h3>
-            <p class="footer-text">Professional marketing operations monitoring and automation solutions</p>
+        <div class="container">
             <div class="footer-links">
-                <a href="https://hratchyan.com" class="footer-link">Visit Our Website</a>
-                <a href="/history" class="footer-link">View History</a>
-                <a href="mailto:support@hratchyan.com" class="footer-link">Contact Support</a>
+                <a href="/history" class="footer-link">History</a>
+                <a href="https://github.com/hratchyan/status" class="footer-link">GitHub</a>
             </div>
-            <img src="https://hratchyan.com/wp-content/uploads/2024/01/hratchyan-logo.png" alt="Hratchyan" class="footer-logo">
+            <p class="footer-text">Powered by <a href="https://upptime.js.org" class="footer-link">Upptime</a></p>
         </div>
     </footer>
-
-    <!-- Upptime will inject its content here -->
-    <div id="upptime-content"></div>
 </body>
 </html>
