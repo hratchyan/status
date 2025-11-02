@@ -10,7 +10,7 @@
     "lint": "eslint",
     "generate-config": "node scripts/generate-config.js",
     "sync-api": "rm -rf public/api && cp -r api public/api",
-    "prebuild": "npm run generate-config && npm run sync-api"
+    "prebuild": "npm run generate-config"
   },
   "dependencies": {
     "react": "19.2.0",
