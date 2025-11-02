@@ -206,19 +206,37 @@ export async function getServiceStatus(serviceId: string, locationCode?: string)
     const uptimeData: UptimeData = await uptimeRes.json();
     const responseTimeData: ResponseTimeData = await responseTimeRes.json();
 
-    // Determine status based on uptime percentage
-    const uptimePercent = parseFloat(uptimeData.message.replace('%', ''));
-    let status: 'up' | 'down' | 'degraded' = 'up';
-
-    if (uptimePercent === 0) {
-      status = 'down';
-    } else if (uptimePercent < 99) {
-      status = 'degraded';
-    }
-
     // Extract response time (remove 'ms' and convert to number)
     const responseTimeMatch = responseTimeData.message.match(/(\d+)/);
     const responseTime = responseTimeMatch ? parseInt(responseTimeMatch[1]) : 0;
+
+    // Determine status based on current operational state, not historical uptime
+    // For new monitoring, uptime starts at 0% but services may be operational
+    const uptimePercent = parseFloat(uptimeData.message.replace('%', ''));
+    let status: 'up' | 'down' | 'degraded' | 'unknown' = 'up';
+
+    // Only consider uptime for degradation if we have meaningful historical data
+    // If uptime is very low (< 10%), it might indicate new monitoring rather than actual downtime
+    if (uptimePercent < 10 && uptimePercent > 0) {
+      // For very low uptime percentages, assume it's new monitoring and check response time
+      // If response time is reasonable (< 5000ms), consider it operational
+      if (responseTime > 0 && responseTime < 5000) {
+        status = 'up'; // Service is responding, likely new monitoring
+      } else {
+        status = 'degraded'; // Slow response or no data
+      }
+    } else if (uptimePercent === 0) {
+      // 0% uptime could mean new monitoring OR actual downtime
+      // Check if we have response time data to determine
+      if (responseTime > 0) {
+        status = 'up'; // We have response time data, service is working
+      } else {
+        status = 'unknown'; // No data available yet
+      }
+    } else if (uptimePercent < 95) {
+      status = 'degraded'; // Established monitoring with poor uptime
+    }
+    // uptimePercent >= 95 && uptimePercent <= 100 remains 'up'
 
     return {
       name: location ? `${service.name} (${location.name})` : service.name,
