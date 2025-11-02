@@ -45,9 +45,12 @@ function generateUptimeRC(services, locations) {
   // Generate service × location combinations
   services.services.forEach(service => {
     locations.locations.forEach(location => {
+      // Use statusApiUrl for status-api type, url for website type
+      const monitorUrl = service.type === 'status-api' ? service.statusApiUrl : service.url;
+      
       sites.push({
         name: `${service.name} (${location.name})`,
-        url: service.url,
+        url: monitorUrl,
         type: 'globalping',
         location: location.globalping,
         slug: generateSlug(service.name, location.code),
@@ -131,16 +134,20 @@ export const LOCATIONS: Location[] = ${JSON.stringify(
 interface ServiceConfig {
   id: string;
   name: string;
-  url: string;
-  statusUrl: string;
+  type: 'status-api' | 'website';
+  statusApiUrl: string;
+  statusPageUrl: string;
+  apiFormat?: string;
 }
 
 export const SERVICES: ServiceConfig[] = ${JSON.stringify(
     services.services.map(svc => ({
       id: svc.name,
       name: svc.name,
-      url: svc.url,
-      statusUrl: svc.statusUrl
+      type: svc.type,
+      statusApiUrl: svc.statusApiUrl || svc.url,
+      statusPageUrl: svc.statusPageUrl,
+      apiFormat: svc.apiFormat
     })),
     null,
     2
@@ -191,8 +198,8 @@ export async function getServiceStatus(serviceId: string, locationCode?: string)
     if (!uptimeRes.ok || !responseTimeRes.ok) {
       return {
         name: location ? \`\${service.name} (\${location.name})\` : service.name,
-        url: service.url,
-        statusUrl: service.statusUrl,
+        url: service.statusApiUrl,
+        statusUrl: service.statusPageUrl,
         status: 'unknown',
         uptime: 'N/A',
         responseTime: 0,
@@ -221,8 +228,8 @@ export async function getServiceStatus(serviceId: string, locationCode?: string)
 
     return {
       name: location ? \`\${service.name} (\${location.name})\` : service.name,
-      url: service.url,
-      statusUrl: service.statusUrl,
+      url: service.statusApiUrl,
+      statusUrl: service.statusPageUrl,
       status,
       uptime: uptimeData.message,
       responseTime,
@@ -233,8 +240,8 @@ export async function getServiceStatus(serviceId: string, locationCode?: string)
     console.error(\`Error fetching status for \${serviceId}:\`, error);
     return {
       name: location ? \`\${service.name} (\${location.name})\` : service.name,
-      url: service.url,
-      statusUrl: service.statusUrl,
+      url: service.statusApiUrl,
+      statusUrl: service.statusPageUrl,
       status: 'unknown',
       uptime: 'N/A',
       responseTime: 0,
@@ -273,6 +280,162 @@ export async function getServiceStatusByLocation(serviceId: string): Promise<Map
   }
   
   return statusMap;
+}
+
+// Aggregation functions for horizontal cards
+
+import { AggregatedServiceStatus, LocationStatus, DetailedServiceStatus } from './types';
+
+/**
+ * Fetch detailed status from service's status API
+ */
+async function fetchDetailedStatus(service: ServiceConfig): Promise<DetailedServiceStatus | undefined> {
+  if (service.type !== 'status-api') return undefined;
+  
+  try {
+    const response = await fetch(service.statusApiUrl);
+    if (!response.ok) return undefined;
+    
+    const data = await response.json();
+    
+    // Parse based on API format
+    if (service.apiFormat === 'statuspage') {
+      // StatusPage.io format (Zapier, CallRail)
+      return {
+        indicator: data.status?.indicator || 'none',
+        description: data.status?.description || 'All Systems Operational',
+        components: data.components?.map((c: any) => ({
+          name: c.name,
+          status: c.status
+        })),
+        incidents: data.incidents?.slice(0, 3).map((i: any) => ({
+          name: i.name,
+          status: i.status,
+          created_at: i.created_at
+        }))
+      };
+    }
+    
+    // For custom formats, return basic info
+    return {
+      indicator: 'none',
+      description: 'Service operational'
+    };
+  } catch (error) {
+    console.error(\`Error fetching detailed status for \${service.name}:\`, error);
+    return undefined;
+  }
+}
+
+/**
+ * Get aggregated status for a single service across all locations
+ */
+export async function getAggregatedServiceStatus(serviceId: string): Promise<AggregatedServiceStatus> {
+  const service = SERVICES.find(s => s.id === serviceId);
+  
+  if (!service) {
+    throw new Error(\`Service \${serviceId} not found\`);
+  }
+  
+  // Fetch status from all locations
+  const locationStatuses: LocationStatus[] = [];
+  let totalResponseTime = 0;
+  let uptimeValues: number[] = [];
+  let hasErrors = false;
+  
+  for (const location of LOCATIONS) {
+    const status = await getServiceStatus(serviceId, location.code);
+    
+    locationStatuses.push({
+      location,
+      responseTime: status.responseTime,
+      status: status.status,
+      uptime: status.uptime,
+      lastChecked: status.lastChecked,
+      error: status.error
+    });
+    
+    if (status.error) {
+      hasErrors = true;
+    } else {
+      totalResponseTime += status.responseTime;
+      const uptimePercent = parseFloat(status.uptime.replace('%', ''));
+      if (!isNaN(uptimePercent)) {
+        uptimeValues.push(uptimePercent);
+      }
+    }
+  }
+  
+  // Calculate averages
+  const validLocations = locationStatuses.filter(l => !l.error);
+  const averageResponseTime = validLocations.length > 0 
+    ? Math.round(totalResponseTime / validLocations.length)
+    : 0;
+  
+  const overallUptime = uptimeValues.length > 0
+    ? \`\${(uptimeValues.reduce((a, b) => a + b, 0) / uptimeValues.length).toFixed(2)}%\`
+    : 'N/A';
+  
+  // Determine overall status
+  let overallStatus: 'up' | 'down' | 'degraded' | 'unknown' = 'up';
+  const downCount = locationStatuses.filter(l => l.status === 'down').length;
+  const degradedCount = locationStatuses.filter(l => l.status === 'degraded').length;
+  
+  if (downCount >= locationStatuses.length / 2) {
+    overallStatus = 'down';
+  } else if (downCount > 0 || degradedCount > 0) {
+    overallStatus = 'degraded';
+  } else if (hasErrors) {
+    overallStatus = 'unknown';
+  }
+  
+  // Fetch detailed status for status-api services
+  const detailedStatus = await fetchDetailedStatus(service);
+  
+  // Determine status message
+  let statusMessage = 'All Systems Operational';
+  if (detailedStatus?.description) {
+    statusMessage = detailedStatus.description;
+  } else if (overallStatus === 'down') {
+    statusMessage = 'Service Down';
+  } else if (overallStatus === 'degraded') {
+    statusMessage = 'Performance Degraded';
+  } else if (overallStatus === 'unknown') {
+    statusMessage = 'Status Unknown';
+  }
+  
+  return {
+    id: service.id,
+    name: service.name,
+    type: service.type,
+    overallStatus,
+    statusMessage,
+    statusPageUrl: service.statusPageUrl,
+    locations: locationStatuses,
+    averageResponseTime,
+    overallUptime,
+    lastChecked: new Date().toISOString(),
+    detailedStatus,
+    primaryLocation: 'la' // Los Angeles as priority
+  };
+}
+
+/**
+ * Get aggregated status for all services
+ */
+export async function getAllAggregatedServicesStatus(): Promise<AggregatedServiceStatus[]> {
+  const results: AggregatedServiceStatus[] = [];
+  
+  for (const service of SERVICES) {
+    try {
+      const aggregated = await getAggregatedServiceStatus(service.id);
+      results.push(aggregated);
+    } catch (error) {
+      console.error(\`Error getting aggregated status for \${service.id}:\`, error);
+    }
+  }
+  
+  return results;
 }
 `;
 

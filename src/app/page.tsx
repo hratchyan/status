@@ -1,20 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ServiceStatus } from '@/lib/types';
-import { getAllServicesStatus } from '@/lib/api';
+import { AggregatedServiceStatus } from '@/lib/types';
+import { getAllAggregatedServicesStatus } from '@/lib/api';
 import { ServiceCard } from '@/components/ServiceCard';
 import { StatusOverview } from '@/components/StatusOverview';
 
 export default function Home() {
-  const [services, setServices] = useState<ServiceStatus[]>([]);
+  const [services, setServices] = useState<AggregatedServiceStatus[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const data = await getAllServicesStatus();
+        const data = await getAllAggregatedServicesStatus();
         setServices(data);
       } catch (err) {
         setError('Failed to load service status');
@@ -103,9 +103,9 @@ export default function Home() {
             <p className="text-gray-600">Unable to load service status information.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="flex flex-col gap-6">
             {services.map((service) => (
-              <ServiceCard key={service.name} service={service} />
+              <ServiceCard key={service.id} service={service} />
             ))}
           </div>
         )}

@@ -4,34 +4,51 @@
 
 services:
   - name: Zapier
-    url: https://status.zapier.com/api/v2/status.json
-    statusUrl: https://status.zapier.com
+    type: status-api
+    statusApiUrl: https://status.zapier.com/api/v2/status.json
+    statusPageUrl: https://status.zapier.com
+    apiFormat: statuspage
+    multiLocation: true
     method: GET
     expectedStatusCodes: [200]
     
   - name: Salesforce
-    url: https://api.status.salesforce.com/v1/instances/status
-    statusUrl: https://status.salesforce.com
+    type: status-api
+    statusApiUrl: https://api.status.salesforce.com/v1/instances/status
+    statusPageUrl: https://status.salesforce.com
+    apiFormat: custom
+    multiLocation: true
     method: GET
     
   - name: Google Cloud
-    url: https://status.cloud.google.com/summary.json
-    statusUrl: https://status.cloud.google.com
+    type: status-api
+    statusApiUrl: https://status.cloud.google.com/summary.json
+    statusPageUrl: https://status.cloud.google.com
+    apiFormat: custom
+    multiLocation: true
     method: GET
     
   - name: Microsoft Azure
-    url: https://azure.status.microsoft.com/en-us/status/feed/
-    statusUrl: https://azure.status.microsoft.com/en-us/status
+    type: status-api
+    statusApiUrl: https://azure.status.microsoft.com/en-us/status/feed/
+    statusPageUrl: https://azure.status.microsoft.com/en-us/status
+    apiFormat: custom
+    multiLocation: true
     method: GET
     
   - name: CallRail
-    url: https://status.callrail.com/api/v2/status.json
-    statusUrl: https://status.callrail.com
+    type: status-api
+    statusApiUrl: https://status.callrail.com/api/v2/status.json
+    statusPageUrl: https://status.callrail.com
+    apiFormat: statuspage
+    multiLocation: true
     method: GET
     
   - name: WordPress Site
+    type: website
     url: https://hratchyan.com
-    statusUrl: https://hratchyan.com
+    statusPageUrl: https://hratchyan.com
+    multiLocation: true
     method: GET
     expectedStatusCodes: [200]
     maxResponseTime: 10000

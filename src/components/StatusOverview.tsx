@@ -1,19 +1,19 @@
-import { ServiceStatus } from '@/lib/types';
+import { AggregatedServiceStatus } from '@/lib/types';
 
 interface StatusOverviewProps {
-  services: ServiceStatus[];
+  services: AggregatedServiceStatus[];
 }
 
 export function StatusOverview({ services }: StatusOverviewProps) {
   const totalServices = services.length;
-  const operationalServices = services.filter(s => s.status === 'up').length;
-  const degradedServices = services.filter(s => s.status === 'degraded').length;
-  const downServices = services.filter(s => s.status === 'down').length;
+  const operationalServices = services.filter(s => s.overallStatus === 'up').length;
+  const degradedServices = services.filter(s => s.overallStatus === 'degraded').length;
+  const downServices = services.filter(s => s.overallStatus === 'down').length;
 
   const averageUptime = services.length > 0
     ? (services.reduce((acc, service) => {
-        const uptime = parseFloat(service.uptime.replace('%', ''));
-        return acc + uptime;
+        const uptime = parseFloat(service.overallUptime.replace('%', ''));
+        return acc + (isNaN(uptime) ? 0 : uptime);
       }, 0) / services.length).toFixed(1) + '%'
     : '0%';
 
