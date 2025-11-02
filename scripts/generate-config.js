@@ -18,7 +18,7 @@ const yaml = require('js-yaml');
 // File paths
 const SERVICES_FILE = path.join(__dirname, '../config/services.yml');
 const LOCATIONS_FILE = path.join(__dirname, '../config/locations.yml');
-const UPPTIME_RC_FILE = path.join(__dirname, '../.uptimerc.yml');
+const UPPTIME_RC_FILE = path.join(__dirname, '../.upptimerc.yml');
 const API_TS_FILE = path.join(__dirname, '../src/lib/api.ts');
 
 // Read and parse YAML files
@@ -99,7 +99,7 @@ function generateUptimeRC(services, locations) {
   });
 
   fs.writeFileSync(UPPTIME_RC_FILE, yamlStr, 'utf8');
-  console.log(`✅ Generated .uptimerc.yml with ${sites.length} monitoring endpoints`);
+  console.log(`✅ Generated .upptimerc.yml with ${sites.length} monitoring endpoints`);
   console.log(`   (${services.services.length} services × ${locations.locations.length} locations)`);
 }
 
