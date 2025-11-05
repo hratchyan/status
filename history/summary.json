@@ -106,7 +106,7 @@
     "timeMonth": 217,
     "timeYear": 217,
     "dailyMinutesDown": {
-      "2025-11-05": 952,
+      "2025-11-05": 982,
       "2025-11-04": 1440,
       "2025-11-03": 1440,
       "2025-11-02": 1188
@@ -129,7 +129,7 @@
     "timeMonth": 222,
     "timeYear": 222,
     "dailyMinutesDown": {
-      "2025-11-05": 952,
+      "2025-11-05": 982,
       "2025-11-04": 1440,
       "2025-11-03": 1440,
       "2025-11-02": 1188
@@ -152,7 +152,7 @@
     "timeMonth": 272,
     "timeYear": 272,
     "dailyMinutesDown": {
-      "2025-11-05": 952,
+      "2025-11-05": 982,
       "2025-11-04": 1440,
       "2025-11-03": 1440,
       "2025-11-02": 1188
@@ -175,7 +175,7 @@
     "timeMonth": 316,
     "timeYear": 316,
     "dailyMinutesDown": {
-      "2025-11-05": 952,
+      "2025-11-05": 982,
       "2025-11-04": 1440,
       "2025-11-03": 1440,
       "2025-11-02": 1187
@@ -198,7 +198,7 @@
     "timeMonth": 444,
     "timeYear": 444,
     "dailyMinutesDown": {
-      "2025-11-05": 952,
+      "2025-11-05": 982,
       "2025-11-04": 1440,
       "2025-11-03": 1440,
       "2025-11-02": 1148
@@ -221,7 +221,7 @@
     "timeMonth": 43,
     "timeYear": 43,
     "dailyMinutesDown": {
-      "2025-11-05": 953,
+      "2025-11-05": 982,
       "2025-11-04": 1440,
       "2025-11-03": 1440,
       "2025-11-02": 1187
@@ -244,7 +244,7 @@
     "timeMonth": 75,
     "timeYear": 75,
     "dailyMinutesDown": {
-      "2025-11-05": 953,
+      "2025-11-05": 982,
       "2025-11-04": 1440,
       "2025-11-03": 1440,
       "2025-11-02": 1187
@@ -267,7 +267,7 @@
     "timeMonth": 54,
     "timeYear": 54,
     "dailyMinutesDown": {
-      "2025-11-05": 953,
+      "2025-11-05": 982,
       "2025-11-04": 1440,
       "2025-11-03": 1440,
       "2025-11-02": 1187
@@ -290,7 +290,7 @@
     "timeMonth": 57,
     "timeYear": 57,
     "dailyMinutesDown": {
-      "2025-11-05": 953,
+      "2025-11-05": 982,
       "2025-11-04": 1440,
       "2025-11-03": 1440,
       "2025-11-02": 1187
@@ -313,7 +313,7 @@
     "timeMonth": 179,
     "timeYear": 179,
     "dailyMinutesDown": {
-      "2025-11-05": 953,
+      "2025-11-05": 982,
       "2025-11-04": 1440,
       "2025-11-03": 1440,
       "2025-11-02": 1148
@@ -414,17 +414,17 @@
     "url": "https://status.callrail.com/api/v2/status.json",
     "icon": "https://icons.duckduckgo.com/ip3/status.callrail.com.ico",
     "slug": "callrail-los-angeles",
-    "status": "down",
+    "status": "up",
     "uptime": "100.00%",
     "uptimeDay": "100.00%",
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
-    "time": 263,
-    "timeDay": 205,
-    "timeWeek": 263,
-    "timeMonth": 263,
-    "timeYear": 263,
+    "time": 268,
+    "timeDay": 234,
+    "timeWeek": 268,
+    "timeMonth": 268,
+    "timeYear": 268,
     "dailyMinutesDown": {}
   },
   {
@@ -432,19 +432,19 @@
     "url": "https://status.callrail.com/api/v2/status.json",
     "icon": "https://icons.duckduckgo.com/ip3/status.callrail.com.ico",
     "slug": "callrail-new-york",
-    "status": "down",
-    "uptime": "99.99%",
-    "uptimeDay": "99.96%",
-    "uptimeWeek": "99.99%",
-    "uptimeMonth": "99.99%",
-    "uptimeYear": "99.99%",
-    "time": 120,
-    "timeDay": 81,
-    "timeWeek": 120,
-    "timeMonth": 120,
-    "timeYear": 120,
+    "status": "up",
+    "uptime": "99.42%",
+    "uptimeDay": "97.98%",
+    "uptimeWeek": "99.42%",
+    "uptimeMonth": "99.42%",
+    "uptimeYear": "99.42%",
+    "time": 125,
+    "timeDay": 105,
+    "timeWeek": 125,
+    "timeMonth": 125,
+    "timeYear": 125,
     "dailyMinutesDown": {
-      "2025-11-05": 1
+      "2025-11-05": 29
     }
   },
   {
@@ -452,19 +452,19 @@
     "url": "https://status.callrail.com/api/v2/status.json",
     "icon": "https://icons.duckduckgo.com/ip3/status.callrail.com.ico",
     "slug": "callrail-london",
-    "status": "down",
-    "uptime": "99.99%",
-    "uptimeDay": "99.97%",
-    "uptimeWeek": "99.99%",
-    "uptimeMonth": "99.99%",
-    "uptimeYear": "99.99%",
-    "time": 173,
-    "timeDay": 211,
-    "timeWeek": 173,
-    "timeMonth": 173,
-    "timeYear": 173,
+    "status": "up",
+    "uptime": "99.42%",
+    "uptimeDay": "97.98%",
+    "uptimeWeek": "99.42%",
+    "uptimeMonth": "99.42%",
+    "uptimeYear": "99.42%",
+    "time": 188,
+    "timeDay": 228,
+    "timeWeek": 188,
+    "timeMonth": 188,
+    "timeYear": 188,
     "dailyMinutesDown": {
-      "2025-11-05": 0
+      "2025-11-05": 29
     }
   },
   {
