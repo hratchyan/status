@@ -1,7 +1,7 @@
 url: https://status.zapier.com/api/v2/status.json
-status: down
-code: 403
-responseTime: 0
-lastUpdated: 2025-11-15T09:25:55.490Z
+status: up
+code: 200
+responseTime: 138
+lastUpdated: 2025-11-15T09:40:45.101Z
 startTime: 2025-11-02T04:12:06.535Z
 generator: Upptime <https://github.com/upptime/upptime>
