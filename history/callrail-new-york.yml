@@ -1,7 +1,7 @@
 url: https://status.callrail.com/api/v2/status.json
-status: down
-code: 503
-responseTime: 44
-lastUpdated: 2025-12-14T08:52:52.960Z
+status: up
+code: 200
+responseTime: 42
+lastUpdated: 2025-12-14T09:18:55.826Z
 startTime: 2025-11-02T04:13:15.313Z
 generator: Upptime <https://github.com/upptime/upptime>
