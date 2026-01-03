@@ -1,7 +1,7 @@
 url: https://api.status.salesforce.com/v1/instances/status
 status: down
 code: 400
-responseTime: 84
-lastUpdated: 2026-01-02T23:23:03.848Z
+responseTime: 94
+lastUpdated: 2026-01-03T23:22:51.681Z
 startTime: 2025-11-02T04:12:19.324Z
 generator: Upptime <https://github.com/upptime/upptime>
